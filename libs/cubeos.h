@@ -3,6 +3,7 @@
 #ifndef CUBEOS_H
 #define CUBEOS_H
 
+/* C function for package making: ### package
 /* ### system_restart () Reboots the system **UNDER DEVELOPMENT** */
 void system_restart (void);
 /* ### system_crash() Bind a new screen, yields "CubeOS has crashed" */
@@ -48,5 +49,66 @@ strings printed green.)
 ** MODIFIES A **
 ** RETURNS the total exit status (0 if all successful, 1 if otherwise) ** */
 int check_all (int output_location);
+/* ### dl.hashGet (search_term, hash_table_pointer)
+   Searcher the hash table at *hash_table_pointer* for *search_term* in the lookup portion of it. It 
+   returns the value in the value portion associated with the search_term.
+
+   ** RETURNS value associated by the hash table with *search_term*, or 1 if it could not be found.
+   ** DEVELOPMENT VERSION **
+   */
+/* UNSURE */ int dl_hashGet(char *search_term, int hash_table_pointer);
+/* DL STUFF BEFORE THIS */
+/* ### HWM()
+   Maps the ports of all recongnized hardware to specific points in memory, which are accesible through
+   labels. Upon recognizing a piece of hardware, it will map it to a memory location and do an automatic
+   `JSR' to a label of the form `HWinit.x`, where *x* is the name of the hardware recognized in either 
+   full form (`HWInit.LEM1802`) or definition camel case (`HWinit.GenericClock`) if the name of the 
+   hardware cannot be represented by labels int its full form.
+*/
+void HWM (void);
+/* ### HWF.1802 in as few cycles as possible and sets the memory location at the label *LEM1802* to
+   its port number without mapping other hardware. This is intented to be run at bootime in order
+   to quickly start the monitor and display a boot screen.
+   ** UNDER DEVELOPMENT **
+   */
+void HWF_LEM1802 (void);
+/* ### sh (pointer_command)
+   Executes a single command pointed to by *pointer_command*
+*/
+void sh(int pointer_command);
+/* ### crp.sum (input_pointer, input_length)
+   Performs a BSD-checksum operation.
+   ** RETURNS the 16 bit hash **
+   */
+int crp_sum(int input_pointer, int intput_lenght);
+/* ### kd_newKeyboard (generic_keyboard)
+   Defines a new keyboard in the first open memory location carried in *kd.daemonlist*, as defined
+   *kd.init*, or adds a new one if it doesn't exist.
+   ** RETURNS a pointer to the *generic_keyboard*'s OptLoc word.
+   */
+int kd_newKeyboard(int generic_keyboard);
+/* ### pih_init()
+   Does `IAS pih` to direct any interrupts to the interrupt handler.
+*/
+void pih_init (void);
+/* ### pih_return ()
+   Exits the interrupt handler, returning the value that is currently in A in the register A (avoiding
+   clearing it during the return process.)
+   ** SYNTAX `SET PC, pih.returnVal` to exit **
+   */
+void pih_return (void);
+/* ### pih_chOSMsh (msg, location)
+   Redefines the OS (msg < 64) interrupt message to point at *location*
+   ** MODIFIES A **
+   ** RETURNS *msg **
+   */
+int pih_chOSMsg (int msg, int location);
+/* ### pih.newMsg (location)
+   Finds the first unused message greater than or equal to 64, but less than or equal to 127. It then
+   makes *location* the locattion to jump to when that interrupt is triggered.
+   ** RETURNS the first open message **
+   */
+   
 
 #endif /*cubeos.h */
+
