@@ -107,7 +107,7 @@ int pih_chOSMsg (int msg, int location);
    makes *location* the locattion to jump to when that interrupt is triggered.
    ** RETURNS the first open message **
    */
-   
+int pih_newMsg (int location);   
 
 #endif /*cubeos.h */
 
