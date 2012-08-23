@@ -3,7 +3,6 @@
 #ifndef CUBEOS_H
 #define CUBEOS_H
 
-/* C function for package making: ### package
 /* ### system_restart () Reboots the system **UNDER DEVELOPMENT** */
 void system_restart (void);
 /* ### system_crash() Bind a new screen, yields "CubeOS has crashed" */
